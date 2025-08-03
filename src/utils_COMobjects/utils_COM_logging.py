@@ -75,16 +75,6 @@ class mixinCOMclass_logger:
             postfix += "_"
             postfix.replace("__", "_")
         basefilenameprefix = ""
-        # modulefilename = os.path.basename(__file__)
-        # stack = inspect.stack()
-        # for i in range(0, len(stack)-1):
-        #     stackframefilename = stack[i].filename
-        #     if os.path.basename(stackframefilename) != modulefilename:
-        #         basefilenameprefix = prefix + os.path.basename(stackframefilename).split(".")[0] + "_" + postfix
-        #         break
-        # if basefilenameprefix == "":
-        #     basefilenameprefix = prefix + os.path.basename(inspect.getsourcefile(self.__class__)).split(".")[0] + "_" + postfix
-        # switch form os.path to pathlib
         basefilenameprefix = prefix + os.path.basename(inspect.getsourcefile(self.__class__)).split(".")[0] + "_" + postfix  # type: ignore[type-var]
         # basefilenameprefix = prefix + pathlib.Path(inspect.getsourcefile(self.__class__)).name.split(".")[0] + "_" + postfix  # type: ignore[type-var]
         return basefilenameprefix

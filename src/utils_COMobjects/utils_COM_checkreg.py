@@ -69,13 +69,12 @@ def getmodulefile():
 
 # check valid uuid
 # alternative: use is_uuid from validator-collection
-def is_valid_uuid(uuid_to_test, version=4) -> bool:
+def is_valid_uuid(uuid_to_test: str, version=4) -> bool:
 
     try:
         uuid_obj = UUID(uuid_to_test, version=version)
     except ValueError:
         return False
-    # return str(uuid_obj) == uuid_to_test[1:-1]
     return (str(uuid_obj).upper() == uuid_to_test.upper()) or (str(uuid_obj).upper() == uuid_to_test[1:-1].upper())  # type: ignore[no-any-return]
 
 # check registry key

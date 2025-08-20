@@ -68,8 +68,8 @@ local_scheme = "dirty-tag"
 [tool.hatch.build]
 packages = ["src/utils_COMobjects"]
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/utils_COMobjects/_version.py"
+# [tool.hatch.build.hooks.vcs]
+# version-file = "src/utils_COMobjects/_version.py"
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["_version.py"]

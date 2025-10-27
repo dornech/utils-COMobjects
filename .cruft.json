@@ -11,6 +11,7 @@
       "project_short_description": "Package with various utilities to support COM object development with Python based on PyWin32",
       "open_source_license": "GPL-3.0-only",
       "target_python_version": "3.9",
+      "target_os_platform": "windows-latest",
       "github_username": "dornech",
       "project_repo": "https://github.com/dornech/utils-COMobjects",
       "pypi_username": "dornech",

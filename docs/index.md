@@ -227,6 +227,7 @@ if __name__ == "__main__":
     UtilsCOMobjects.UtilsCOMcheckreg.processCOMregistration(PyCOMtest_typelibClass2, gentypelib=True, testmode=True)
     UtilsCOMobjects.UtilsCOMcheckreg.processCOMregistration(PyCOMtest_typelibClass3, gentypelib=True, testmode=True)
 ```
+
 ## Navigation
 
 Documentation for specific `MAJOR.MINOR` versions can be chosen by using the dropdown on the top of every page.

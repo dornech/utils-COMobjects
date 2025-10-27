@@ -50,7 +50,6 @@ import utils_mystuff as Utils
 
 
 
-# mixin class for logging
 class mixinCOMclass_logger:
     """
     mixin class for logging

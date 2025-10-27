@@ -56,12 +56,9 @@ from abc import ABC, abstractmethod
 
 import winreg
 import pythoncom
-# import win32com.server.register
-# from win32com.server.exception import COMException
 
 
 
-# base class without typelib for DesignatedWrapPolicy or EventHandlerPolicy based hereupon
 class baseCOMclass(ABC):
     """
     baseCOMclass - abstract base class for COM objects in Python
@@ -171,7 +168,6 @@ class baseCOMclass(ABC):
     # https://pythonhosted.org/comtypes/server.html
 
 
-# base class with typelib
 class typelibCOMclass(baseCOMclass):
     """
     typelibCOMclass - abstract base class for COM objects with typelib in Python

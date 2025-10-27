@@ -56,8 +56,13 @@ class ErrorCOMregistration(Exception):
 # check COM registration readiness
 
 
-# get filename of module
-def getmodulefile():
+def getmodulefile() -> str:
+    """
+    getmodulefile - get filename of module
+
+    Returns:
+        str: filename of calling module
+    """
 
     if sys.argv[0] != "-c":
         script = sys.argv[0]
@@ -67,18 +72,37 @@ def getmodulefile():
     return os.path.basename(script).split(".")[0]
     # return pathlib.Path(script).name.split(".")[0]
 
-# check valid uuid
-# alternative: use is_uuid from validator-collection
 def is_valid_uuid(uuid_to_test: str, version=4) -> bool:
+    """
+    is_valid_uuid - check uuid is valid
+
+    alternative: use is_uuid from validator-collection
+
+    Args:
+        uuid_to_test (str): UUID to test.
+        version (int): UUID-verison. Default is 4.
+
+    Returns:
+        bool: uuid is valid or not
+    """
 
     try:
         uuid_obj = UUID(uuid_to_test, version=version)
     except ValueError:
         return False
-    return (str(uuid_obj).upper() == uuid_to_test.upper()) or (str(uuid_obj).upper() == uuid_to_test[1:-1].upper())  # type: ignore[no-any-return]
+    return (str(uuid_obj).upper() == uuid_to_test.upper()) or (str(uuid_obj).upper() == uuid_to_test[1:-1].upper())
 
-# check registry key
 def checkRegKey(regroot: int, regpath: str) -> bool:
+    """
+    checkRegKey - check registry key
+
+    Args:
+        regroot (int): registry root
+        regpath (str): registry path to check
+
+    Returns:
+        bool: chec k result if registry path exists under root (or not)
+    """
 
     try:
         with winreg.OpenKey(regroot, regpath) as regkey:
@@ -87,13 +111,24 @@ def checkRegKey(regroot: int, regpath: str) -> bool:
     except OSError:
         return False
 
-# check single COM registration attribute
 def checkCOMattrib(
     cls: type[COMclass.baseCOMclass],
     attrib: str,
     checkfunction: Union[Callable, None] = None,
     optional: bool = False
 ) -> bool:
+    """
+    checkCOMattrib - check single COM class registration attribute
+
+    Args:
+        cls (COMclass.baseCOMclass): class to be checked
+        attrib (str): attribute to be checked
+        checkfunction (Callable): specific check function
+        optional (bool): positive check result optional (i. e. if True only message is generated)
+
+    Returns:
+        bool: check result
+    """
 
     if hasattr(cls, attrib):
         attribvalue = getattr(cls, attrib)
@@ -114,7 +149,6 @@ def checkCOMattrib(
         return False or optional
 
 
-# check COM registration readiness - basic COM object attributes
 def checkAttribsCOM(cls: type[COMclass.baseCOMclass], checkpubattrib: bool = False) -> bool:
     """
     checkAttribsCOM - check COM registration readiness, basic COM object attributes
@@ -213,8 +247,6 @@ def check_attribs_COM(cls: type[COMclass.baseCOMclass], checkpubattrib: bool = F
     return checkAttribsCOM(cls, checkpubattrib)
 
 
-
-# check COM registration readiness - Typelib registration readiness;
 def checkAttribsTypeLib(
     cls: Union[type[COMclass.baseCOMclass], type[COMclass.typelibCOMclass]],
     clsmodule: Optional[types.ModuleType] = None
@@ -380,14 +412,13 @@ def check_attribs_typelib(
     return checkAttribsTypeLib(cls, clsmodule)
 
 
-
-# COM registration caller
-# to register class add following call in object module
-# if __name__ == '__main__':
-#    <import name of this module>.processCOMregistration(<classname>)
-def processCOMregistration(cls: type[COMclass.baseCOMclass], gentypelib: bool = False, testmode: bool = False):
+def processCOMregistration(cls: type[COMclass.baseCOMclass], gentypelib: bool = False, testmode: bool = False) -> None:
     """
     processCOMregistration - check and register Python COM object class as COM object
+
+    To register class add following call in object module:
+    if __name__ == '__main__':
+        <import name of this module>.processCOMregistration(<classname>)
 
     Args:
         cls (type[COMclass.baseCOMclass]): Python COM object class to be registered
@@ -478,8 +509,7 @@ def processCOMregistration(cls: type[COMclass.baseCOMclass], gentypelib: bool = 
         errorhandling(f"COM registration requested for instance not object class. Try registration for {cls.__class__.__name__}.", testmode)
     print()
 
-
-def process_COM_registration(cls: type[COMclass.baseCOMclass], gentypelib: bool = False, testmode: bool = False):
+def process_COM_registration(cls: type[COMclass.baseCOMclass], gentypelib: bool = False, testmode: bool = False) -> None:
     """
     process_COM_registration - check and register Python COM object class as COM object
 
@@ -491,9 +521,7 @@ def process_COM_registration(cls: type[COMclass.baseCOMclass], gentypelib: bool 
     processCOMregistration(cls, gentypelib, testmode)
 
 
-
-# COM object - list of public methods
-def printCOMpublicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, Any]):
+def printCOMpublicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, Any]) -> None:
     """
     printCOMpublicmethods - print public methods of Python COM object class
 
@@ -510,7 +538,7 @@ def printCOMpublicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMc
                     print(f"    Signature: {inspect.signature(member[1])}")
                     print(f"    {inspect.getfullargspec(member[1])}")
 
-def print_COM_publicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, object]):
+def print_COM_publicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, object]) -> None:
     """
     print_COM_publicmethods - print public methods of Python COM object class
 

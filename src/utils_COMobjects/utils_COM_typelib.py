@@ -70,16 +70,16 @@ import pythoncom
 
 
 
-# typelib generation -  typelib per class or common typelib for all classes in py-file with same typelib assignment
-def generateIDL(cls, clsmodule: types.ModuleType) -> bool:
+# typelib generation - typelib per class or common typelib for all classes in py-file with same typelib assignment
+def generateIDL(cls, clsmodule: types.ModuleType) -> bool:  # docsig: disable=SIG101
 
-    def setinterface(classname, cominterfaces: list[str]) -> str:
+    def setinterface(classname, cominterfaces: list[str]) -> str:  # docsig: disable=SIG101
         if len(cominterfaces) == 0:
             return "I" + str(classname)
         else:
             return cominterfaces[0]
 
-    def PythonTypeToIDLType(annotations, argname: str) -> str:
+    def PythonTypeToIDLType(annotations, argname: str) -> str:  # docsig: disable=SIG101
         argtypeIDL = None
         try:
             if argname in annotations:
@@ -245,7 +245,7 @@ def generateIDL(cls, clsmodule: types.ModuleType) -> bool:
     return okIDL
 
 # typelib compilation (i. e. call Microsoft IDL compiler midl.exe)
-def compileTypeLib(cls):
+def compileTypeLib(cls):  # docsig: disable=SIG101
     idl = get_filename(cls)
     tlb = os.path.splitext(idl)[0] + '.tlb'
     # tlb = pathlib.Path(idl).stem + '.tlb'
@@ -269,7 +269,7 @@ def compileTypeLib(cls):
 #        registration and unregistration (see Python code in win32com.server.register)
 
 # register typelib
-def registerTypeLib(cls):
+def registerTypeLib(cls):  # docsig: disable=SIG101
 
     def registerTypeLibfile(tlbfile: str):
         tlbfile = os.path.abspath(tlbfile)
@@ -285,7 +285,7 @@ def registerTypeLib(cls):
         registerTypeLibfile(tlbfile)
 
 # unregister typelib - copy from win32com.server.register
-def unregister_typelib(cls):
+def unregister_typelib(cls):  # docsig: disable=SIG101
     tlb_guid = getattr(cls, "_typelib_guid_")
     major, minor = getattr(cls, "_typelib_version_", (1, 0))
     lcid = getattr(cls, "_typelib_lcid_", 0)
@@ -300,7 +300,7 @@ def unregister_typelib(cls):
 # utilities for typelib generation
 
 # get classes with same typelib assignment via _reg_typelib_filename_
-def get_typelib_classes(cls, clsmodule: types.ModuleType) -> list[Any]:
+def get_typelib_classes(cls, clsmodule: types.ModuleType) -> list[Any]:  # docsig: disable=SIG101
     tlbfile = cls._reg_typelib_filename_
     if tlbfile == "":
         return [cls]
@@ -308,7 +308,8 @@ def get_typelib_classes(cls, clsmodule: types.ModuleType) -> list[Any]:
         return inspect.getmembers(clsmodule, lambda clsmember: getattr(clsmember, "_reg_typelib_filename_", "") == tlbfile and inspect.isclass)
 
 # filename for typelib IDL belonging to class(es)
-def get_filename(cls, ext: str = ".idl"):
+# docsig: disable=SIG101
+def get_filename(cls, ext: str = ".idl") -> str:  # docsig: disable=SIG101
     if cls._reg_typelib_filename_ == "" or cls._reg_typelib_filename_ == cls.__name__ + ".tlb" or cls._reg_typelib_filename_ == cls.__name__:
         return os.path.join(os.path.dirname(inspect.getfile(cls)), cls.__name__ + ext)
         # return pathlib.Path(inspect.getfile(cls)).parent.joinpath(cls.__name__ + ext)
@@ -317,5 +318,5 @@ def get_filename(cls, ext: str = ".idl"):
         # return pathlib.Path(inspect.getfile(cls)).parent.joinpath(pathlib.Path(cls._reg_typelib_filename_).stem + ext)
 
 # get enum classes in module
-def get_enum_classes(clsmodule: types.ModuleType) -> list[Any]:
+def get_enum_classes(clsmodule: types.ModuleType) -> list[Any]:  # docsig: disable=SIG101
     return inspect.getmembers(clsmodule, lambda clsmember: getattr(getattr(clsmember, "__base__", ""), "__name__", "") == "Enum" and inspect.isclass)

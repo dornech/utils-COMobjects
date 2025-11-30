@@ -29,7 +29,8 @@ hereupon) without as well as with typelib attributes.
 
 
 
-from typing import Any, Callable, Optional, Union
+from typing import Any
+from collections.abc import Callable
 
 import types
 import inspect
@@ -38,7 +39,7 @@ import sys
 import os.path
 # import pathlib
 
-import win32com.server.register
+import win32com.server
 import winreg
 from uuid import UUID
 
@@ -114,7 +115,7 @@ def checkRegKey(regroot: int, regpath: str) -> bool:
 def checkCOMattrib(
     cls: type[COMclass.baseCOMclass],
     attrib: str,
-    checkfunction: Union[Callable, None] = None,
+    checkfunction: Callable | None = None,
     optional: bool = False
 ) -> bool:
     """
@@ -248,8 +249,8 @@ def check_attribs_COM(cls: type[COMclass.baseCOMclass], checkpubattrib: bool = F
 
 
 def checkAttribsTypeLib(
-    cls: Union[type[COMclass.baseCOMclass], type[COMclass.typelibCOMclass]],
-    clsmodule: Optional[types.ModuleType] = None
+    cls: type[COMclass.baseCOMclass] | type[COMclass.typelibCOMclass],
+    clsmodule: types.ModuleType | None = None
 ) -> bool:
     """
     checkAttribsTypeLib - check COM registration readiness, typelib registration attributes
@@ -396,8 +397,8 @@ def checkAttribsTypeLib(
     return check
 
 def check_attribs_typelib(
-    cls: Union[type[COMclass.baseCOMclass], type[COMclass.typelibCOMclass]],
-    clsmodule: Optional[types.ModuleType] = None
+    cls: type[COMclass.baseCOMclass] | type[COMclass.typelibCOMclass],
+    clsmodule: types.ModuleType | None = None
 ) -> bool:
     """
     check_attribs_typelib - check COM registration readiness, typelib registration attributes
@@ -521,7 +522,7 @@ def process_COM_registration(cls: type[COMclass.baseCOMclass], gentypelib: bool 
     processCOMregistration(cls, gentypelib, testmode)
 
 
-def printCOMpublicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, Any]) -> None:
+def printCOMpublicmethods(cls: COMclass.baseCOMclass | COMclass.typelibCOMclass | Any) -> None:
     """
     printCOMpublicmethods - print public methods of Python COM object class
 
@@ -538,7 +539,7 @@ def printCOMpublicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMc
                     print(f"    Signature: {inspect.signature(member[1])}")
                     print(f"    {inspect.getfullargspec(member[1])}")
 
-def print_COM_publicmethods(cls: Union[COMclass.baseCOMclass, COMclass.typelibCOMclass, object]) -> None:
+def print_COM_publicmethods(cls: COMclass.baseCOMclass | COMclass.typelibCOMclass | object) -> None:
     """
     print_COM_publicmethods - print public methods of Python COM object class
 

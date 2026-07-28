@@ -327,7 +327,7 @@ debug = "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
 # Hatch testing environment matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.test.matrix]]
 template = ["test"]
-python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.11", "3.12", "3.13", "3.14"]
 
 # Hatch default linting environment for "hatch fmt"
 [tool.hatch.envs.hatch-static-analysis]
